@@ -45,7 +45,7 @@ function displayCountries(countries) {
     `;
     countryCard.addEventListener("click", () => {
         localStorage.setItem("selectedCountry", country.name.common);
-        window.location.href = "./fullinfo.html";
+        window.location.href = "fullinfo.html";
       });
     countriesContainer.appendChild(countryCard);
  
