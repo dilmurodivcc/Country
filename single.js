@@ -34,11 +34,16 @@ async function fetchCountryData() {
     </div>
     </div>
     <div class="border">
-    <strong>Border Countries:</strong>
-    <div class="border-countries">
-    ${count.borders.map((border) => `<button class="border-country">${border}</button>`).join(" ")}
-    </div>
-    </div>
+      <p><strong>Border Countries:</strong></p>
+      <div class="border-countries">
+        ${
+          count.borders &&
+          count.borders
+            .map((border) => `<button class="border-country">${border}</button>`)
+            .join("")
+        }
+      </div>
+
     </div>
     `;
     document.body.appendChild(countCard);
