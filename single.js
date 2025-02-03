@@ -11,6 +11,7 @@ async function fetchCountryData() {
     const count = data[0];
     const countCard = document.createElement("div");
     countCard.classList.add("count-card");
+    
     countCard.innerHTML = `
       <img src="${count.flags.svg}" alt="${count.name.common} flag">
       <div class="count-info">

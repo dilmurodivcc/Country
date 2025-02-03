@@ -24,7 +24,7 @@ body {
   background-color: var(--bg);
 }
 .container {
-  max-width: 1280px;
+  max-width: 1280px !important;
   margin: auto;
 }
 header {
@@ -196,7 +196,7 @@ p {
 
 @media screen and (max-width: 1308px) {
   .container {
-    width: 95vw;
+    width: 95vw !important;
   }
   .countries {
     display: grid;
@@ -209,7 +209,7 @@ p {
 
 @media screen and (max-width: 1000px) {
   .container {
-    width: 92vw;
+    width: 92vw    !important;
   }
   .countries {
     display: grid;
@@ -231,7 +231,8 @@ p {
 
 @media screen and (max-width: 600px) {
   .container {
-    width: 90vw;
+    width: 90vw 
+    !important;
   }
   .countries {
     display: grid;

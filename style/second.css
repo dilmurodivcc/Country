@@ -24,7 +24,6 @@ body.light #back svg {
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 1280px;
   gap: 140px;
   margin: 40px 0;
   margin: 0 auto;
@@ -93,4 +92,73 @@ h3 {
 }
 .border-country:hover {
   cursor: pointer;
+}
+
+
+@media screen and (max-width: 1200px) {
+  .count-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 40px;
+    margin: 40px 0;
+  }
+  
+  .count-card img {
+    width: 460px;
+    height: auto;
+    border-radius: 6px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .count-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 90vw;
+    height: auto;
+    margin: 0 auto; 
+
+    gap: 40px;
+  }
+  
+  .count-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .count-card {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    gap: 40px;
+  }
+  .count-info {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    gap: 20px;
+    flex-direction: column;
+  }
+  .info {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .border {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;}
+  
 }
