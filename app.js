@@ -3,28 +3,37 @@ const searchInput = document.getElementById("search");
 const regionFilter = document.getElementById("region-filter");
 const mode = document.getElementById("mode");
 const sort = document.getElementById("sort");
+const loader = document.getElementById("loader"); // Loader elementini olamiz
 let selectedCountry;
 
 async function fetchCountries() {
-  const response = await fetch("https://restcountries.com/v3.1/all");
-  const countries = await response.json();
-  const savedSearch = localStorage.getItem("searchTerm") || "";
-  const savedRegion = localStorage.getItem("region") || "all";
-  searchInput.value = savedSearch;
-  regionFilter.value = savedRegion;
-  let filteredCountries = countries;
-  if (savedSearch) {
-    filteredCountries = filteredCountries.filter((country) =>
-      country.name.common.toLowerCase().includes(savedSearch.toLowerCase())
-    );
-  }
-  if (savedRegion !== "all") {
-    filteredCountries = filteredCountries.filter(
-      (country) => country.region === savedRegion
-    );
-  }
+  loader.style.display = "block"; // Loader ko'rinadi
 
-  displayCountries(filteredCountries);
+  try {
+    const response = await fetch("https://restcountries.com/v3.1/all");
+    const countries = await response.json();
+    const savedSearch = localStorage.getItem("searchTerm") || "";
+    const savedRegion = localStorage.getItem("region") || "all";
+    searchInput.value = savedSearch;
+    regionFilter.value = savedRegion;
+    let filteredCountries = countries;
+    if (savedSearch) {
+      filteredCountries = filteredCountries.filter((country) =>
+        country.name.common.toLowerCase().includes(savedSearch.toLowerCase())
+      );
+    }
+    if (savedRegion !== "all") {
+      filteredCountries = filteredCountries.filter(
+        (country) => country.region === savedRegion
+      );
+    }
+
+    displayCountries(filteredCountries);
+  } catch (error) {
+    console.error("Xatolik yuz berdi:", error);
+  } finally {
+    loader.style.display = "none"; // Ma'lumot yuklangach loader yashiriladi
+  }
 }
 
 function displayCountries(countries) {
@@ -44,62 +53,84 @@ function displayCountries(countries) {
       </div>
     `;
     countryCard.addEventListener("click", () => {
-        localStorage.setItem("selectedCountry", country.name.common);
-        window.location.href = "fullinfo.html";
-      });
+      localStorage.setItem("selectedCountry", country.name.common);
+      window.location.href = "fullinfo.html";
+    });
     countriesContainer.appendChild(countryCard);
- 
-      
   });
 }
 
-
 searchInput.addEventListener("input", async () => {
-  const searchTerm = searchInput.value.toLowerCase();
-  localStorage.setItem("searchTerm", searchTerm);
+  loader.style.display = "block"; // Loader ko'rinadi
 
-  const response = await fetch("https://restcountries.com/v3.1/all");
-  const countries = await response.json();
-  const filteredCountries = countries.filter((country) =>
-    country.name.common.toLowerCase().includes(searchTerm)
-  );
-  displayCountries(filteredCountries);
+  try {
+    const searchTerm = searchInput.value.toLowerCase();
+    localStorage.setItem("searchTerm", searchTerm);
+
+    const response = await fetch("https://restcountries.com/v3.1/all");
+    const countries = await response.json();
+    const filteredCountries = countries.filter((country) =>
+      country.name.common.toLowerCase().includes(searchTerm)
+    );
+
+    displayCountries(filteredCountries);
+  } catch (error) {
+    console.error("Xatolik yuz berdi:", error);
+  } finally {
+    loader.style.display = "none"; // Ma'lumot yuklangach loader yashiriladi
+  }
 });
 
 regionFilter.addEventListener("change", async () => {
-  const region = regionFilter.value;
-  localStorage.setItem("region", region);
+  loader.style.display = "block"; // Loader ko'rinadi
 
-  const response = await fetch("https://restcountries.com/v3.1/all");
-  const countries = await response.json();
+  try {
+    const region = regionFilter.value;
+    localStorage.setItem("region", region);
 
-  let filteredCountries = countries;
-  if (region !== "all") {
-    filteredCountries = countries.filter(
-      (country) => country.region === region
-    );
+    const response = await fetch("https://restcountries.com/v3.1/all");
+    const countries = await response.json();
+
+    let filteredCountries = countries;
+    if (region !== "all") {
+      filteredCountries = countries.filter(
+        (country) => country.region === region
+      );
+    }
+
+    displayCountries(filteredCountries);
+  } catch (error) {
+    console.error("Xatolik yuz berdi:", error);
+  } finally {
+    loader.style.display = "none"; // Ma'lumot yuklangach loader yashiriladi
   }
-
-  displayCountries(filteredCountries);
 });
 
 sort.addEventListener("change", async () => {
-  const sortValue = sort.value;
-  const response = await fetch("https://restcountries.com/v3.1/all");
-  const countries = await response.json();
-  let sortedCountries;
-  if (sortValue === "az") {
-    sortedCountries = countries.sort((a, b) =>
-      a.name.common.localeCompare(b.name.common)
-    );
-  } else if (sortValue === "za") {
-    sortedCountries = countries.sort((a, b) =>
-      b.name.common.localeCompare(a.name.common)
-    );
-  } else if (sortValue === "population") {
-    sortedCountries = countries.sort((a, b) => b.population - a.population);
+  loader.style.display = "block"; // Loader ko'rinadi
+
+  try {
+    const sortValue = sort.value;
+    const response = await fetch("https://restcountries.com/v3.1/all");
+    const countries = await response.json();
+    let sortedCountries;
+    if (sortValue === "az") {
+      sortedCountries = countries.sort((a, b) =>
+        a.name.common.localeCompare(b.name.common)
+      );
+    } else if (sortValue === "za") {
+      sortedCountries = countries.sort((a, b) =>
+        b.name.common.localeCompare(a.name.common)
+      );
+    } else if (sortValue === "population") {
+      sortedCountries = countries.sort((a, b) => b.population - a.population);
+    }
+    displayCountries(sortedCountries);
+  } catch (error) {
+    console.error("Xatolik yuz berdi:", error);
+  } finally {
+    loader.style.display = "none"; // Ma'lumot yuklangach loader yashiriladi
   }
-  displayCountries(sortedCountries);
 });
 
 if (localStorage.getItem("mode") === "light") {
